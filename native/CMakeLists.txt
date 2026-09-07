@@ -7,10 +7,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(puterforge WIN32
     main.cpp
+    AppState.cpp
+    AppState.h
+    NativeWindow.cpp
+    NativeWindow.h
 )
 
-target_compile_definitions(puterforge PRIVATE UNICODE _UNICODE)
-target_link_libraries(puterforge PRIVATE user32)
+target_compile_definitions(puterforge PRIVATE UNICODE _UNICODE WIN32_LEAN_AND_MEAN NOMINMAX)
+target_link_libraries(puterforge PRIVATE user32 gdi32 shell32)
 
 if(MSVC)
     target_compile_options(puterforge PRIVATE /W4 /permissive-)
