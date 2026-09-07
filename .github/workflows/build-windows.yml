@@ -24,6 +24,9 @@ jobs:
         working-directory: js
         run: node --check runtime/server.mjs
 
+      - name: run foundation tests
+        run: node tests/js/foundation.test.mjs
+
       - name: configure native build
         run: cmake -S native -B build -A x64
 
