@@ -1,6 +1,6 @@
 #include "NativeWindow.h"
 
-#include <windowsx.h>
+#include <windows.h>
 
 namespace {
 constexpr wchar_t kWindowTitle[] = L"puterforge";
@@ -14,7 +14,12 @@ bool NativeWindow::Create(HINSTANCE instance, const std::wstring& title) {
     windowClass.hCursor = LoadCursorW(nullptr, IDC_ARROW);
     windowClass.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
 
-    RegisterClassW(&windowClass);
+    if (!RegisterClassW(&windowClass)) {
+        const DWORD error = GetLastError();
+        if (error != ERROR_CLASS_ALREADY_EXISTS) {
+            return false;
+        }
+    }
 
     hwnd_ = CreateWindowExW(
         0,
@@ -77,12 +82,15 @@ LRESULT CALLBACK NativeWindow::WindowProc(HWND hwnd, UINT message, WPARAM wParam
         TextOutW(dc, 32, 28, L"puterforge", 9);
         SelectObject(dc, body);
         TextOutW(dc, 32, 82, L"native workspace online", 23);
-        TextOutW(dc, 32, 114, L"initialization branch is alive", 29);
+        TextOutW(dc, 32, 114, L"foundation expanded", 19);
 
         RECT panel{32, 170, client.right - 32, client.bottom - 32};
         Rectangle(dc, panel.left, panel.top, panel.right, panel.bottom);
         TextOutW(dc, panel.left + 20, panel.top + 20, L"workspace", 9);
-        TextOutW(dc, panel.left + 20, panel.top + 54, L"the editor, terminal, model picker, and agents land here.", 52);
+        TextOutW(dc, panel.left + 20, panel.top + 54, L"editor", 6);
+        TextOutW(dc, panel.left + 20, panel.top + 82, L"models", 6);
+        TextOutW(dc, panel.left + 20, panel.top + 110, L"agents", 6);
+        TextOutW(dc, panel.left + 20, panel.top + 138, L"terminal", 8);
 
         SelectObject(dc, previous);
         DeleteObject(title);
