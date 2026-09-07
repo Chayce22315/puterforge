@@ -1,0 +1,12 @@
+{
+  "name": "puterforge-runtime",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node runtime/server.mjs"
+  },
+  "dependencies": {
+    "@heyputer/puter.js": "latest"
+  }
+}
